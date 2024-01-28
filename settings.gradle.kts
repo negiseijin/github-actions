@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "android_dynamic"
-include(":app", ":dyn")
+rootProject.name = "android_github_actions"
+include(":app")
