@@ -4,6 +4,11 @@ coverage:
   badge:
     path: docs/coverage.svg
 codeToTestRatio:
+  code:
+    - "**/*.kt"
+    - "!**/*_Tests.kt"
+  test:
+    - "**/*_Tests.kt"
   badge:
     path: docs/ratio.svg
 testExecutionTime:
