@@ -18,8 +18,8 @@ on:
             - "**.md"
 
 jobs:
-    name: Build
     build:
+        name: Build
         runs-on: ubuntu-latest
 
         permissions:
