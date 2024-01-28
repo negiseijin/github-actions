@@ -11,9 +11,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
-rootProject.name = "android_dynamic"
-include(":app", ":dyn")
+rootProject.name = "Github Actions"
+include(":app")
