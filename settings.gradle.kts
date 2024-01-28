@@ -11,9 +11,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
-rootProject.name = "android_github_actions"
+rootProject.name = "Github Actions"
 include(":app")
