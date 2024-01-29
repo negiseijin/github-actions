@@ -1,20 +1,45 @@
 name: TEST
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
 on:
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      GH_TOKN: ${{ github.token }}
+      WORK_FLOW_FILE: ci.yml
+
     steps:
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Get sha
+        id: sha-selector
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          sha=$(gh api repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
+                | jq -r '[.workflow_runs[] | select(.head_branch == "${{ github.ref_name }}").head_sha][0]')
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Get target url
+        id: target-url-selector
+        run: |
+            url=$(gh api repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
+                 | jq -r '[.workflow_runs[] | select(.head_branch == "${{ github.ref_name }}").html_url][0]')
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Create a commit status
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository }}/statuses/${{ steps.sha-selector.outputs.sha }} \
+            -f state='${{ job.status }}' \
+            -f target_url='${{ steps.target-url-selector.outputs.url }}' \
+            -f description='${{ job.status }}' \
+            -f context='TEST（Manual）'
