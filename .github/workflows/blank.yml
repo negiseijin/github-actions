@@ -18,19 +18,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get run id
+        id: run-id-selector
+        run: |
+          id=$(gh api \
+               repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
+               | jq -r '[.workflow_runs[] | select(.head_branch == "${{ github.ref_name }}").id][0]')
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+
       - name: Get sha
         id: sha-selector
         run: |
-          sha=$(gh api repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
+          sha=$(gh api \
+                repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
                 | jq -r '[.workflow_runs[] | select(.head_branch == "${{ github.ref_name }}").head_sha][0]')
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - name: Get target url
         id: target-url-selector
         run: |
-            url=$(gh api repos/${{ github.repository }}/actions/workflows/${{ env.WORK_FLOW_FILE }}/runs \
-                 | jq -r '[.workflow_runs[] | select(.head_branch == "${{ github.ref_name }}").html_url][0]')
-            echo "url=$url" >> "$GITHUB_OUTPUT"
+          url=$(gh api \
+                repos/${{ github.repository }}/actions/runs/${{ steps.run-id-selector.outcome.id }}
+               | jq -r '.html_url')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Create a commit status
         run: |
@@ -42,4 +52,4 @@ jobs:
             -f state='${{ job.status }}' \
             -f target_url='${{ steps.target-url-selector.outputs.url }}' \
             -f description='${{ job.status }}' \
-            -f context='TEST（Manual）'
+            -f context='TEST (Manual)'
