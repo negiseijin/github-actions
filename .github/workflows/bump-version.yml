@@ -1,0 +1,117 @@
+name: Bump up version
+
+on:
+    # schedule:
+    #     - cron: '0 14 * * *'
+    workflow_dispatch:
+
+jobs:
+    bump-up:
+        name: Bump up
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+
+        permissions:
+            contents: write
+            pull-requests: write
+
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.ref }}
+            cancel-in-progress: true
+
+        env:
+            BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
+            BASE_BRANCH: develop
+
+        outputs:
+            tag: ${{ steps.tag-selector.outputs.tag }}
+            pr: ${{ steps.create-pr-selector.outputs.pr }}
+
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - uses: ruby/setup-ruby@v1
+              with:
+                ruby-version: '3.2'
+                bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+            - name: Set up git
+              run: |
+                git config user.name github-actions
+                git config user.email github-actions@github.com
+
+            - name: Bump up version
+              run: bundle exec fastlane bump_up_version_code
+
+            - name: Get latest tag
+              id: tag-selector
+              run: |
+                git fetch --prune
+                tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+                echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+            - name: Set up version
+              id: version-selector
+              run: |
+                version=$(git branch --show-current | sed "s/night-release\///")
+                echo "version=$version" >> "$GITHUB_OUTPUT"
+
+            - name: Create pull request
+              id: create-pr-selector
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                tag_name=${{ steps.tag-selector.outputs.tag }}
+                title=${{ steps.version-selector.outputs.version }}
+                body=$(gh api /repos/{owner}/{repo}/releases/generate-notes -f tag_name=$tag_name -f target_commitish=${{ env.BASE_BRANCH }} --jq .body)
+                pr=$(gh pr create --base ${{ env.BASE_BRANCH }} --title ":up: Version Bump v$title" --body "$body")
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Disp step summary
+              if: ${{ always() }}
+              run: |
+                echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
+                echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
+                echo "|Get latest tag|\`${{ steps.tag-selector.outcome }}\`|\`${{ steps.tag-selector.outputs.tag }}\`|" >> $GITHUB_STEP_SUMMARY
+                echo "|Set up version|\`${{ steps.version-selector.outcome }}\`|\`${{ steps.version-selector.outputs.version }}\`|" >> $GITHUB_STEP_SUMMARY
+                echo "|Create pull request|\`${{ steps.create-pr-selector.outcome }}\`| ${{ steps.create-pr-selector.outputs.pr }} |" >> $GITHUB_STEP_SUMMARY
+
+    merge:
+        name: PR merge
+        needs:
+            - bump-up
+        runs-on: ubuntu-latest
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.ref }}
+            cancel-in-progress: true
+        permissions:
+            contents: write
+            pull-requests: write
+        env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+        steps:
+            # - name: Approve pr
+            #   id: approve-selector
+            #   run: |
+            #     pr=$(gh pr review ${{ needs.bump-up.outputs.pr }} --approve --body "auto approve")
+            #     echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Auto merge
+              id: merge-selector
+              run: |
+                pr=$(gh pr merge ${{ needs.bump-up.outputs.pr }} --auto -d -m)
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Disp step summary
+              if: ${{ always() }}
+              run: |
+                echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
+                echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
+                # echo "|Approve pr|\`${{ steps.approve-selector.outcome }}\`|${{ steps.approve-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
+                echo "|Auto merge|\`${{ steps.merge-selector.outcome }}\`|${{ steps.merge-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
