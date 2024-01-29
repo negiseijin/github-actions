@@ -17,7 +17,7 @@ jobs:
        statuses: write
 
     env:
-      GH_TOKN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       WORK_FLOW_FILE: ci.yml
 
     steps:
