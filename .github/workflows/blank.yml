@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     permissions:
@@ -58,7 +59,7 @@ jobs:
             -f state='${{ job.status }}' \
             -f target_url='${{ steps.target-url-selector.outputs.url }}' \
             -f description='${{ job.status }}' \
-            -f context='TEST (Manual)'
+            -f context='TEST / Build (manually)'
 
       - name: Disp step summary
         if: ${{ always() }}
