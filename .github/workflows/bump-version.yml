@@ -21,7 +21,7 @@ jobs:
 
         env:
             BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
-            BASE_BRANCH: develop
+            BASE_BRANCH: main
 
         outputs:
             tag: ${{ steps.tag-selector.outputs.tag }}
