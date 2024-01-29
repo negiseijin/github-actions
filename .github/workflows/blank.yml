@@ -38,7 +38,7 @@ jobs:
         id: target-url-selector
         run: |
           url=$(gh api \
-                repos/${{ github.repository }}/actions/runs/${{ steps.run-id-selector.outcome.id }}
+                repos/${{ github.repository }}/actions/runs/${{ steps.run-id-selector.outputs.id }}
                | jq -r '.html_url')
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
