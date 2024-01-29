@@ -11,8 +11,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+       actions: write
+       contents: write
+       statuses: write
+
     env:
-      GH_TOKN: ${{ github.token }}
+      GH_TOKN: ${{ secrets.GITHUB_TOKEN }}
       WORK_FLOW_FILE: ci.yml
 
     steps:
