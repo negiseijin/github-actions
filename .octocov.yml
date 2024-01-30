@@ -12,7 +12,7 @@ codeToTestRatio:
     badge:
         path: docs/ratio.svg
 testExecutionTime:
-    steps: Run test
+    step: Run test
     badge:
         path: docs/time.svg
 summary:
