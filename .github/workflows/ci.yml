@@ -67,8 +67,14 @@ jobs:
               run: |
                 echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "<details><summary>context Details</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "<details><summary>context event details</summary>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "<pre>${{ toJson(github) }}</pre>" >> $GITHUB_STEP_SUMMARY
+                echo "${{ toJson(github.event) }}" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "</details>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "<details><summary>context env  details</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "${{ toJson(github.env) }}" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "</details>" >> $GITHUB_STEP_SUMMARY
