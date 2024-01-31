@@ -79,6 +79,28 @@ jobs:
                 echo "| github.base_ref | ${{ github.base_ref }} |" >> $GITHUB_STEP_SUMMARY
                 echo "| github.env | ${{ github.env }} |" >> $GITHUB_STEP_SUMMARY
                 echo "| github.event | ${{ github.event }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.action | ${{ github.event.action }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.after | ${{ github.event.after }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.base_ref | ${{ github.event.base_ref }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.before | ${{ github.event.before }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.commits | ${{ github.event.commits }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.compare | ${{ github.event.compare }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.created | ${{ github.event.created }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.deleted | ${{ github.event.deleted }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.enterprise | ${{ github.event.enterprise }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.forced | ${{ github.event.forced }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.head_commit | ${{ github.event.head_commit }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.inputs | ${{ github.event.inputs }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.installation | ${{ github.event.installation }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.number | ${{ github.event.number }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.organization | ${{ github.event.organization }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.pull_request | ${{ github.event.pull_request }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.pusher | ${{ github.event.pusher}} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.ref | ${{ github.event.ref}} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.repository | ${{ github.event.repository}} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.sender | ${{ github.event.sender }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event.workflow | ${{ github.event.workflow }} |" >> $GITHUB_STEP_SUMMARY
+                echo "| github.event | ${{ toJson(github.event)}} |" >> $GITHUB_STEP_SUMMARY
                 echo "| github.event_name | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
                 echo "| github.event_path | ${{ github.event_path }} |" >> $GITHUB_STEP_SUMMARY
                 echo "| github.graphql_url | ${{ github.graphql_url }} |" >> $GITHUB_STEP_SUMMARY
