@@ -69,6 +69,6 @@ jobs:
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "<details><summary>context Details</summary>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "${{ toJson(github) }}" >> $GITHUB_STEP_SUMMARY
+                echo "<code>${{ toJson(github) }}</code>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "</details>" >> $GITHUB_STEP_SUMMARY
