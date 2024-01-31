@@ -67,66 +67,8 @@ jobs:
               run: |
                 echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "| context | value | " >> $GITHUB_STEP_SUMMARY
-                echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
-                echo "| github.action | ${{ github.action }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.action_path | ${{ github.action_path }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.action_repository | ${{ github.action_repository }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.action_status | ${{ github.action_status }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.actor | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.actor_id | ${{ github.actor_id }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.api_url | ${{ github.api_url }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.base_ref | ${{ github.base_ref }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.env | ${{ github.env }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event | ${{ github.event }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.action | ${{ github.event.action }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.after | ${{ github.event.after }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.base_ref | ${{ github.event.base_ref }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.before | ${{ github.event.before }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.commits | ${{ github.event.commits }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.compare | ${{ github.event.compare }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.created | ${{ github.event.created }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.deleted | ${{ github.event.deleted }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.enterprise | ${{ github.event.enterprise }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.forced | ${{ github.event.forced }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.head_commit | ${{ github.event.head_commit }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.inputs | ${{ github.event.inputs }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.installation | ${{ github.event.installation }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.number | ${{ github.event.number }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.organization | ${{ github.event.organization }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.pull_request | ${{ github.event.pull_request }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.pusher | ${{ github.event.pusher}} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.ref | ${{ github.event.ref}} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.repository | ${{ github.event.repository}} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.sender | ${{ github.event.sender }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event.workflow | ${{ github.event.workflow }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event | ${{ toJson(github.event)}} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event_name | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.event_path | ${{ github.event_path }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.graphql_url | ${{ github.graphql_url }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.head_ref | ${{ github.head_ref }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.job | ${{ github.job }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.job_workflow_sha | ${{ github.job_workflow_sha }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.path | ${{ github.path }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.ref | ${{ github.ref }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.ref_name | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.ref_protected | ${{ github.ref_protected }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.ref_type | ${{ github.ref_type }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.repository | ${{ github.repository }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.repository_id | ${{ github.repository_id }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.repository_owner | ${{ github.repository_owner }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.repository_owner_id | ${{ github.repository_owner_id }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.repositoryUrl | ${{ github.repositoryUrl }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.retention_days | ${{ github.retention_days }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.run_attempt | ${{ github.run_attempt }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.run_id | ${{ github.run_id }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.run_number | ${{ github.run_number }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.secret_source | ${{ github.secret_source }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.server_url | ${{ github.server_url }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.sha | ${{ github.sha }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.token | ${{ github.token }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.triggering_actor | ${{ github.triggering_actor }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.workflow | ${{ github.workflow }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.workflow_ref | ${{ github.workflow_ref }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.workflow_sha | ${{ github.workflow_sha }} |" >> $GITHUB_STEP_SUMMARY
-                echo "| github.workspace | ${{ github.workspace }} |" >> $GITHUB_STEP_SUMMARY
+                echo "<details><summary>context Details</summary>" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "${{ toJson(github) }}" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "</details>" >> $GITHUB_STEP_SUMMARY
