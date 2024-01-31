@@ -65,13 +65,11 @@ jobs:
             - name: Disp step summary
               if: ${{ always() }}
               run: |
-                ${{ toJson(github.event) }} > event.json
-                event=$(cat event.json)
                 echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "<details><summary>context event details</summary>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "$event" >> $GITHUB_STEP_SUMMARY
+                echo "${{ toJson(github.event) }} | jq ." >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "</details>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
