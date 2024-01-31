@@ -71,7 +71,6 @@ jobs:
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "<details><summary>context event details</summary>" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                # echo "${{ toJson(github.event) }}" >> $GITHUB_STEP_SUMMARY
                 echo "$event" >> $GITHUB_STEP_SUMMARY
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "</details>" >> $GITHUB_STEP_SUMMARY
