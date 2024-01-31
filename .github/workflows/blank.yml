@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     permissions:
@@ -17,7 +18,7 @@ jobs:
        statuses: write
 
     env:
-      GH_TOKN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       WORK_FLOW_FILE: ci.yml
 
     steps:
@@ -43,11 +44,12 @@ jobs:
         id: target-url-selector
         run: |
           url=$(gh api \
-                repos/${{ github.repository }}/actions/runs/${{ steps.run-id-selector.outputs.id }}
+                repos/${{ github.repository }}/actions/runs/${{ steps.run-id-selector.outputs.id }} \
                | jq -r '.html_url')
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Create a commit status
+        id: commit-status-selector
         run: |
           gh api \
             --method POST \
@@ -57,4 +59,16 @@ jobs:
             -f state='${{ job.status }}' \
             -f target_url='${{ steps.target-url-selector.outputs.url }}' \
             -f description='${{ job.status }}' \
-            -f context='TEST (Manual)'
+            -f context='TEST / Build (manually)'
+
+      - name: Disp step summary
+        if: ${{ always() }}
+        run: |
+          echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "|Get run id|\`${{ steps.run-id-selector.outcome }}\`|\`${{ steps.run-id-selector.outputs.id }}\`|" >> $GITHUB_STEP_SUMMARY
+          echo "|Get sha|\`${{ steps.sha-selector.outcome }}\`| ${{ steps.sha-selector.outputs.sha }} |" >> $GITHUB_STEP_SUMMARY
+          echo "|Get target url|\`${{ steps.target-url-selector.outcome }}\`|\`${{ steps.target-url-selector.outputs.url }}\`|" >> $GITHUB_STEP_SUMMARY
+          echo "|Create a commit status|\`${{ steps.commit-status-selector.outcome }}\`|  |" >> $GITHUB_STEP_SUMMARY
