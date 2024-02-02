@@ -15,9 +15,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-       actions: write
-       contents: write
-       statuses: write
+       contents: read
+       checks: write
 
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
