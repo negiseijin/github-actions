@@ -22,6 +22,7 @@ jobs:
         env:
             BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
             BASE_BRANCH: main
+            LABEL: nightly build
 
         outputs:
             tag: ${{ steps.tag-selector.outputs.tag }}
@@ -66,7 +67,12 @@ jobs:
                 tag_name=${{ steps.tag-selector.outputs.tag }}
                 title=${{ steps.version-selector.outputs.version }}
                 body=$(gh api /repos/{owner}/{repo}/releases/generate-notes -f tag_name=$tag_name -f target_commitish=${{ env.BASE_BRANCH }} --jq .body)
-                pr=$(gh pr create --base ${{ env.BASE_BRANCH }} --title ":up: Version Bump v$title" --body "$body")
+                pr=$(gh pr create \
+                    --base ${{ env.BASE_BRANCH }} \
+                    --title ":up: Version Bump v$title" \
+                    --body "$body" \
+                    --label ${{ env.LABEL }}
+                    )
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Disp step summary

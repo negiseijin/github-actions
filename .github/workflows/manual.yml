@@ -1,4 +1,4 @@
-name: TEST
+name: MANUAL
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
@@ -6,8 +6,6 @@ concurrency:
 
 on:
   workflow_dispatch:
-    inputs:
-
 
 jobs:
   build:
@@ -106,4 +104,4 @@ jobs:
           echo "|Get sha|\`${{ steps.sha-selector.outcome }}\`| ${{ steps.sha-selector.outputs.sha }} |" >> $GITHUB_STEP_SUMMARY
           echo "|Get target url|\`${{ steps.target-url-selector.outcome }}\`|\`${{ steps.target-url-selector.outputs.url }}\`|" >> $GITHUB_STEP_SUMMARY
           echo "|Create check run|\`${{ steps.run-id-selector.outcome }}\`| ${{ steps.run-id-selector.outputs.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "|Create a commit status|\`${{ steps.commit-status-selector.outcome }}\`|  |" >> $GITHUB_STEP_SUMMARY
+        #   echo "|Create a commit status|\`${{ steps.commit-status-selector.outcome }}\`|  |" >> $GITHUB_STEP_SUMMARY
