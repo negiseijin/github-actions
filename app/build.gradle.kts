@@ -13,7 +13,7 @@ android {
         applicationId = "kotlinx.kover.test.android"
         minSdk = 33
         targetSdk = 33
-        versionCode = 1005
+        versionCode = 1006
         versionName = "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
