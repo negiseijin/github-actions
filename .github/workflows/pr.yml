@@ -10,6 +10,7 @@ on:
         inputs:
             number:
                 type: string
+                required: true
 
 jobs:
     merge:
