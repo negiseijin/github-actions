@@ -35,7 +35,7 @@ jobs:
               env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                pr=$(gh pr merge ${{ inputs.number }} --merge --admin --delete-branch)
+                pr=$(gh pr merge ${{ inputs.number }} --admin --delete-branch)
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Disp step summary
