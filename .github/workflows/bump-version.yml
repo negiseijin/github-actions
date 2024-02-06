@@ -17,6 +17,7 @@ jobs:
 
         permissions:
             pull-requests: write
+            actions: write
 
         env:
             BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
@@ -92,6 +93,7 @@ jobs:
         runs-on: ubuntu-latest
 
         permissions:
+            actions: write
             pull-requests: write
 
         env:
