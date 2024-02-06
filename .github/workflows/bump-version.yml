@@ -110,7 +110,7 @@ jobs:
             - name: Auto merge
               id: merge-selector
               run: |
-                pr=$(gh pr merge ${{ needs.bump-up.outputs.pr }} --admin --delete-branch)
+                pr=$(gh pr merge ${{ needs.bump-up.outputs.pr }} --merge --admin --delete-branch)
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Disp step summary
