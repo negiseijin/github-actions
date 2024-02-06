@@ -44,6 +44,8 @@ jobs:
                 git config user.email github-actions@github.com
 
             - name: Bump up version
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: bundle exec fastlane bump_up_version_code
 
             - name: Get latest tag
