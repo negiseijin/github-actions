@@ -85,39 +85,3 @@ jobs:
                 echo "|Get latest tag|\`${{ steps.tag-selector.outcome }}\`|\`${{ steps.tag-selector.outputs.tag }}\`|" >> $GITHUB_STEP_SUMMARY
                 echo "|Set up version|\`${{ steps.version-selector.outcome }}\`|\`${{ steps.version-selector.outputs.version }}\`|" >> $GITHUB_STEP_SUMMARY
                 echo "|Create pull request|\`${{ steps.create-pr-selector.outcome }}\`| ${{ steps.create-pr-selector.outputs.pr }} |" >> $GITHUB_STEP_SUMMARY
-
-    merge:
-        name: PR merge
-        needs:
-            - bump-up
-        runs-on: ubuntu-latest
-
-        permissions:
-            pull-requests: write
-
-        steps:
-            - name: Approve pr
-              id: approve-selector
-              env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                pr=$(gh pr review ${{ needs.bump-up.outputs.pr }} --approve --body "auto approve")
-                echo "pr=$pr" >> "$GITHUB_OUTPUT"
-
-            - name: Auto merge
-              id: merge-selector
-              env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                pr=$(gh pr merge ${{ needs.bump-up.outputs.pr }} --merge --admin --delete-branch)
-                echo "pr=$pr" >> "$GITHUB_OUTPUT"
-
-            - name: Disp step summary
-              if: ${{ always() }}
-              run: |
-                echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
-                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-                echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
-                echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
-                echo "|Approve pr|\`${{ steps.approve-selector.outcome }}\`|${{ steps.approve-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
-                echo "|Auto merge|\`${{ steps.merge-selector.outcome }}\`|${{ steps.merge-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY

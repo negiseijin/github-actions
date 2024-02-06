@@ -1,0 +1,47 @@
+name: Manual
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+
+on:
+    workflow_dispatch:
+        inputs:
+            number:
+                type: string
+
+jobs:
+    merge:
+        name: PR merge
+        runs-on: ubuntu-latest
+
+        permissions:
+            pull-requests: write
+
+        steps:
+            - name: Approve pr
+              id: approve-selector
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                pr=$(gh pr review ${{ inputs.number }} --approve --body "auto approve")
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Auto merge
+              id: merge-selector
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                pr=$(gh pr merge ${{ inputs.number }} --merge --admin --delete-branch)
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Disp step summary
+              if: ${{ always() }}
+              run: |
+                echo "## JOBS_SUMMARY "${{ job.status == 'success' && ':tada:' || ':x:' }}"" >> $GITHUB_STEP_SUMMARY
+                echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+                echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
+                echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
+                echo "|Approve pr|\`${{ steps.approve-selector.outcome }}\`|${{ steps.approve-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
+                echo "|Auto merge|\`${{ steps.merge-selector.outcome }}\`|${{ steps.merge-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
