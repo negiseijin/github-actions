@@ -1,4 +1,4 @@
-name: Manual
+name: PR
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
