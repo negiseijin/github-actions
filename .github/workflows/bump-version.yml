@@ -72,7 +72,7 @@ jobs:
                     --base ${{ env.BASE_BRANCH }} \
                     --title ":up: Version Bump v$title" \
                     --body "$body" \
-                    --label ${{ env.LABEL }}
+                    --label "${{ env.LABEL }}"
                     )
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
