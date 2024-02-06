@@ -5,6 +5,10 @@ on:
     #     - cron: '0 14 * * *'
     workflow_dispatch:
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
     bump-up:
         name: Bump up
@@ -15,13 +19,10 @@ jobs:
             contents: write
             pull-requests: write
 
-        concurrency:
-            group: ${{ github.workflow }}-${{ github.ref }}
-            cancel-in-progress: true
-
         env:
             BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
             BASE_BRANCH: main
+            LABEL: nightly build
 
         outputs:
             tag: ${{ steps.tag-selector.outputs.tag }}
@@ -66,7 +67,12 @@ jobs:
                 tag_name=${{ steps.tag-selector.outputs.tag }}
                 title=${{ steps.version-selector.outputs.version }}
                 body=$(gh api /repos/{owner}/{repo}/releases/generate-notes -f tag_name=$tag_name -f target_commitish=${{ env.BASE_BRANCH }} --jq .body)
-                pr=$(gh pr create --base ${{ env.BASE_BRANCH }} --title ":up: Version Bump v$title" --body "$body")
+                pr=$(gh pr create \
+                    --base ${{ env.BASE_BRANCH }} \
+                    --title ":up: Version Bump v$title" \
+                    --body "$body" \
+                    --label ${{ env.LABEL }}
+                    )
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Disp step summary
@@ -85,12 +91,11 @@ jobs:
         needs:
             - bump-up
         runs-on: ubuntu-latest
-        concurrency:
-            group: ${{ github.workflow }}-${{ github.ref }}
-            cancel-in-progress: true
+
         permissions:
             contents: write
             pull-requests: write
+
         env:
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
