@@ -94,20 +94,20 @@ jobs:
 
         permissions:
             pull-requests: write
-            contents: write
-
-        env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         steps:
             - name: Approve pr
               id: approve-selector
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                 pr=$(gh pr review ${{ needs.bump-up.outputs.pr }} --approve --body "auto approve")
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Auto merge
               id: merge-selector
+              env:
+                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                 pr=$(gh pr merge ${{ needs.bump-up.outputs.pr }} --merge --admin --delete-branch)
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
