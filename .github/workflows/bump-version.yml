@@ -16,9 +16,7 @@ jobs:
         timeout-minutes: 20
 
         permissions:
-            contents: write
             pull-requests: write
-            actions: write
 
         env:
             BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile
@@ -94,7 +92,6 @@ jobs:
         runs-on: ubuntu-latest
 
         permissions:
-            contents: write
             pull-requests: write
 
         env:
