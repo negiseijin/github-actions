@@ -1,3 +1,3 @@
 - https://github.com/DmytroShuba/Custom-Theme-In-Jetpack-Compose
 - https://github.com/ujizin/CustomThemes
-- https://medium.com/@diegop88/custom-theming-in-android-jetpack-compose-48bf1b4d841f
+- https://github.com/Diegop88/MyApplicationTheme?source=post_page-----48bf1b4d841f--------------------------------
