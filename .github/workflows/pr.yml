@@ -27,16 +27,14 @@ jobs:
               env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                pr=$(gh pr review ${{ inputs.number }} --approve --body "auto approve")
-                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+                gh pr review ${{ inputs.number }} --approve --body "auto approve"
 
             - name: Auto merge
               id: merge-selector
               env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                pr=$(gh pr merge ${{ inputs.number }} --merge --admin --delete-branch)
-                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+                gh pr merge ${{ inputs.number }} --merge --admin --delete-branch
 
             - name: Disp step summary
               if: ${{ always() }}
@@ -45,5 +43,5 @@ jobs:
                 echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
                 echo "| Step | Outcome | Remarks |" >> $GITHUB_STEP_SUMMARY
                 echo "|------|---------|---------|" >> $GITHUB_STEP_SUMMARY
-                echo "|Approve pr|\`${{ steps.approve-selector.outcome }}\`|${{ steps.approve-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
-                echo "|Auto merge|\`${{ steps.merge-selector.outcome }}\`|${{ steps.merge-selector.outputs.pr }}|" >> $GITHUB_STEP_SUMMARY
+                echo "|Approve pr|\`${{ steps.approve-selector.outcome }}\`| |" >> $GITHUB_STEP_SUMMARY
+                echo "|Auto merge|\`${{ steps.merge-selector.outcome }}\`| |" >> $GITHUB_STEP_SUMMARY
