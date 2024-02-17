@@ -1,4 +1,4 @@
-package kotlinx.kover.test.android.ui.theme
+package com.example.sample.android.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

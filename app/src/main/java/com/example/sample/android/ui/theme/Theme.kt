@@ -1,4 +1,4 @@
-package kotlinx.kover.test.android.ui.theme
+package com.example.sample.android.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -64,9 +64,11 @@ fun ApplicationTheme(
         }
     }
 
+    val typography = TypographyCursive
+
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content,
     )
 }

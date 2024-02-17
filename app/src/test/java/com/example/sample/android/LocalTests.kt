@@ -1,4 +1,4 @@
-package kotlinx.kover.test.android
+package com.example.sample.android
 
 import org.junit.Test
 

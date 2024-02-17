@@ -1,4 +1,4 @@
-package kotlinx.kover.test.android
+package com.example.sample.android
 
 object DebugUtil {
     fun log(message: String) {

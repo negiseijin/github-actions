@@ -1,4 +1,4 @@
-package kotlinx.kover.test.android.ui.theme
+package com.example.sample.android.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
@@ -33,4 +33,14 @@ val Typography =
             letterSpacing = 0.5.sp
         )
          */
+    )
+
+val TypographyCursive =
+    Typography(
+//        bodyLarge = Typography.bodyLarge.copy(
+//            fontFamily = FontFamily.Monospace
+//        ),
+        displayMedium = Typography.bodyLarge.copy(
+            fontFamily = FontFamily.Cursive
+        ),
     )
