@@ -36,12 +36,12 @@ jobs:
               run: |
                 today=$(date "+%F")
                 version_name=$(grep "versionName" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionName=//g" | sed "s/\"//g")
-                version_code=$(grep "versionCode" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionCode=//g" | sed "s/\"//g")
+                ((version_code=$(grep "versionCode" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionCode=//g" | sed "s/\"//g")))
                 ((major_version = $(echo $version_name | awk -F "." '{print $1}') * 100000))
                 ((minor_version = $(echo $version_name | awk -F "." '{print $2}') * 10000))
                 ((patch_version = $(echo $version_name | awk -F "." '{print $3}') * 1000))
                 ((current_version = $major_version + $minor_version + $patch_version))
-                ((pre_release_version = $(($version_code)) - $current_version))
+                ((pre_release_version = $version_code - $current_version))
                 echo "name=$today-$version_name-$pre_release_version" >> "$GITHUB_OUTPUT"
 
             - name: Set up JDK 17
