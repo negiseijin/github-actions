@@ -34,7 +34,7 @@ jobs:
             - name: Set up report name
               id: report-name-selector
               run: |
-                today=$(date "+%F")
+                today=$(date "+%Y%m%d")
                 version_name=$(grep "versionName" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionName=//g" | sed "s/\"//g")
                 version_code=$(grep "versionCode" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionCode=//g" | sed "s/\"//g")
                 ((major_version = $(echo $version_name | awk -F "." '{print $1}') * 100000))
