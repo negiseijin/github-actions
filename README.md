@@ -2,3 +2,4 @@
 - https://github.com/ujizin/CustomThemes
 - https://github.com/Diegop88/MyApplicationTheme?source=post_page-----48bf1b4d841f--------------------------------
 - https://github.com/PoisonedYouth/kotlin-acceptance-test/tree/master?tab=readme-ov-file
+- https://kaleidot.net/2023/11/compose-multiplatform-resource-image/#%25e7%2599%25bb%25e9%258c%25b2%25e3%2581%2597%25e3%2581%259f%25e7%2594%25bb%25e5%2583%258f%25e3%2583%25aa%25e3%2582%25bd%25e3%2583%25bc%25e3%2582%25b9%25e3%2582%2592%25e8%25a1%25a8%25e7%25a4%25ba%25e3%2581%2599%25e3%2582%258b
