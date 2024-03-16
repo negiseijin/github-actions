@@ -30,9 +30,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
-
             - uses: ruby/setup-ruby@v1
               with:
                 ruby-version: '3.2'
@@ -74,6 +71,18 @@ jobs:
                     )
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
+            - name: Approve pull request
+              id: approve-selector
+              run: |
+                pr=$(gh pr review ${{ steps.create-pr-selector.outputs.pr }} --approve --body "LGTM")
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
+            - name: Auto merge
+              id: merge-selector
+              run: |
+                pr=$(gh pr merge ${{ steps.create-pr-selector.outputs.pr }} --auto -d -m)
+                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+
             - name: Disp step summary
               if: ${{ always() }}
               run: |
@@ -84,3 +93,17 @@ jobs:
                 echo "|Get latest tag|\`${{ steps.tag-selector.outcome }}\`|\`${{ steps.tag-selector.outputs.tag }}\`|" >> $GITHUB_STEP_SUMMARY
                 echo "|Set up version|\`${{ steps.version-selector.outcome }}\`|\`${{ steps.version-selector.outputs.version }}\`|" >> $GITHUB_STEP_SUMMARY
                 echo "|Create pull request|\`${{ steps.create-pr-selector.outcome }}\`| ${{ steps.create-pr-selector.outputs.pr }} |" >> $GITHUB_STEP_SUMMARY
+
+    release:
+        name: Call release
+        needs: bump-up
+        permissions:
+            contents: write
+            pull-requests: write
+
+        uses: ./.github/workflows/release.yml
+        with:
+            tag: ${{ needs.bump-up.outputs.tag }}
+            pr: ${{ needs.bump-up.outputs.pr }}
+        secrets:
+            token: ${{ secrets.GITHUB_TOKEN }}

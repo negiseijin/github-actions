@@ -63,7 +63,7 @@ platform :android do
     new_pre_release_version = new_version_code - current_version
     branch = "#{version_name}-#{new_pre_release_version}"
 
-    sh "git switch -c night-release/#{branch}"
+    sh "git switch -c night-build/#{branch}"
     git_commit(
         path: ["app/build.gradle.kts"],
         message: ":up: Version Bump #{branch}"
