@@ -49,7 +49,7 @@ jobs:
             - name: Get latest tag
               id: tag-selector
               run: |
-                tag=$(git describe --tags)
+                tag=$(git describe --tags `git rev-list --tags --max-count=1`)
                 echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
             - name: Set up version
