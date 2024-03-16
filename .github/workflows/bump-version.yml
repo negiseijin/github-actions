@@ -84,7 +84,7 @@ jobs:
               env:
                 GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                pr=$(gh pr merge ${{ steps.create-pr-selector.outputs.pr }} --auto -d -m)
+                pr=$(gh pr merge ${{ steps.create-pr-selector.outputs.pr }} --admin -d -m)
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Disp step summary
