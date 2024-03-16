@@ -71,13 +71,13 @@ jobs:
                     )
                 echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
-            - name: Approve pull request
-              id: approve-selector
-              env:
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                pr=$(gh pr review ${{ steps.create-pr-selector.outputs.pr }} --approve --body "LGTM")
-                echo "pr=$pr" >> "$GITHUB_OUTPUT"
+            # - name: Approve pull request
+            #   id: approve-selector
+            #   env:
+            #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   run: |
+            #     pr=$(gh pr review ${{ steps.create-pr-selector.outputs.pr }} --approve --body "LGTM")
+            #     echo "pr=$pr" >> "$GITHUB_OUTPUT"
 
             - name: Auto merge
               id: merge-selector
