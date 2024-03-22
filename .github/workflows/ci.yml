@@ -1,8 +1,4 @@
 name: Android CI
-description: 'Android CI'
-branding:
-    icon: 'award'
-    color: 'green'
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}
