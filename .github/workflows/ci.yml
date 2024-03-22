@@ -33,7 +33,6 @@ jobs:
 
             - name: Set up report name
               id: report-name-selector
-              using: 'node20'
               run: |
                 today=$(date "+%Y%m%d")
                 version_name=$(grep "versionName" ${{ github.workspace }}/app/build.gradle.kts | sed "s/ //g" | sed "s/versionName=//g" | sed "s/\"//g")
